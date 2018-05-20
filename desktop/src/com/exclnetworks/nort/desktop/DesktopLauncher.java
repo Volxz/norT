@@ -7,6 +7,9 @@ import com.exclnetworks.nort.NortGame;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+		config.width = NortGame.WIDTH;
+		config.height = NortGame.HEIGHT;
+		config.title = NortGame.TITLE;
 		new LwjglApplication(new NortGame(), config);
 	}
 }
