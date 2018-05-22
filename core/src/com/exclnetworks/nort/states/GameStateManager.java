@@ -1,10 +1,11 @@
-package com.exclnetworks.nort.States;
+package com.exclnetworks.nort.states;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.util.Stack;
 
 public class GameStateManager {
+
     private Stack<State> states;
 
     public GameStateManager(){
@@ -31,4 +32,7 @@ public class GameStateManager {
     public void render(SpriteBatch sb){
         states.peek().render(sb);
     }
+
+
+
 }
