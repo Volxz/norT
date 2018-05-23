@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
+import com.badlogic.gdx.math.Vector2;
 import com.exclnetworks.nort.NortGame;
 
 import java.util.*;
@@ -27,7 +28,10 @@ public class Player {
 
     private float bikeSpeed = 5;
 
-    private int id;
+    private boolean alive;
+    private boolean online;
+
+    public int id;
 
     private char direction;
     private char lastDirection;
@@ -65,7 +69,6 @@ public class Player {
         //System.out.println(this.x);
         //System.out.println(this.y);
         //System.out.println(this.direction);
-        update();
         drawTrail();
         sb.begin();
         //Draw the appropriate bike based on direction
@@ -87,9 +90,8 @@ public class Player {
 
     }
 
-    private void update() {
+    public void update() {
         updateTrail();
-
         switch (direction) {
             case 'N':
                 this.ySpeed = bikeSpeed;
@@ -152,8 +154,8 @@ public class Player {
             case 'N':
                 if (mrTrail.x2 == this.x + (BIKE_WIDTH / 2) && lastDirection == 'N') //Are we continuing a line?
                     mrTrail.y2 = this.y;
-                else{ //If not make a new one and connect the old one haf way
-                    mrTrail.x2 = this.x + (BIKE_WIDTH /2);
+                else { //If not make a new one and connect the old one haf way
+                    mrTrail.x2 = this.x + (BIKE_WIDTH / 2);
                     trails.add(new Line(mrTrail.x2, mrTrail.y2, mrTrail.x2, mrTrail.y2));
                 }
                 lastDirection = 'N';
@@ -161,7 +163,7 @@ public class Player {
             case 'E':
                 if (mrTrail.y2 == this.y + (BIKE_WIDTH / 2) && lastDirection == 'E') //Are we continuing a line?
                     mrTrail.x2 = this.x;
-                else{ //If not make a new one and connect the old one haf way
+                else { //If not make a new one and connect the old one haf way
                     mrTrail.y2 = this.y + (BIKE_WIDTH / 2);
                     trails.add(new Line(mrTrail.x2, mrTrail.y2, mrTrail.x2, mrTrail.y2));
                 }
@@ -171,7 +173,7 @@ public class Player {
                 if (mrTrail.x2 == this.x + (BIKE_WIDTH / 2) && lastDirection == 'S') //Are we continuing a line?
                     mrTrail.y2 = this.y;
                 else { //If not make a new one and connect the old one haf way
-                    mrTrail.x2 = this.x + (BIKE_WIDTH /2);
+                    mrTrail.x2 = this.x + (BIKE_WIDTH / 2);
                     trails.add(new Line(mrTrail.x2, mrTrail.y2, mrTrail.x2, mrTrail.y2));
                 }
                 lastDirection = 'S';
@@ -180,7 +182,7 @@ public class Player {
                 if (mrTrail.y2 == this.y + (BIKE_WIDTH / 2) && lastDirection == 'W') //Are we continuing a line?
                     mrTrail.x2 = this.x;
                 else { //If not make a new one and connect the old one haf way
-                    mrTrail.y2 = this.y + (BIKE_WIDTH /2);
+                    mrTrail.y2 = this.y + (BIKE_WIDTH / 2);
                     trails.add(new Line(mrTrail.x2, mrTrail.y2, mrTrail.x2, mrTrail.y2));
                 }
                 lastDirection = 'W';
@@ -192,7 +194,20 @@ public class Player {
         this.direction = d;
     }
 
-    public void dispose(){
+    public void forceMove(Vector2 c, char direction){
+        this.x = c.x;
+        this.y = c.y;
+        this.direction = direction;
+    }
+
+    public void kill(){
+        this.alive = false;
+        this.trails.clear();
+        this.xSpeed = 0;
+        this.ySpeed = 0;
+    }
+
+    public void dispose() {
         trailRenderer.dispose();
         bike_n.dispose();
         bike_e.dispose();
@@ -200,6 +215,25 @@ public class Player {
         bike_w.dispose();
     }
 
+    public boolean isOnline(){
+        return this.online;
+    }
+
+    public void setOnline(boolean b){
+        this.online = b;
+    }
+
+    public float getX(){
+        return this.x;
+    }
+
+    public float getY(){
+        return this.y;
+    }
+
+    public char getDirection(){
+        return this.direction;
+    }
     class Line {
         float x1;
         float y1;
@@ -213,6 +247,8 @@ public class Player {
             this.y2 = y2;
         }
     }
+
+
 
 
 }

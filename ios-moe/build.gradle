@@ -61,3 +61,5 @@ eclipse {
         natures 'org.multi-os-engine.project'
     }
 }
+
+sourceCompatibility = 1.8
